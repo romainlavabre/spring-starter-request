@@ -210,7 +210,7 @@ public class RequestImpl implements Request {
     private void parseJson() throws JsonProcessingException {
 
         if ( this.request.getContentType() == null
-                || !this.request.getContentType().equals( "application/json" ) ) {
+                || !this.request.getContentType().contains( "application/json" ) ) {
             return;
         }
 
