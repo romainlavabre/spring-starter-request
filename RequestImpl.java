@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -12,6 +13,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Service
@@ -214,33 +216,42 @@ public class RequestImpl implements Request {
             return;
         }
 
-        final StringBuffer json = new StringBuffer();
-
-        String         line   = null;
-        BufferedReader reader = null;
-
         try {
-            reader = this.request.getReader();
-
-            while ( (line = reader.readLine()) != null ) {
-                json.append( line );
-            }
-        } catch ( final IOException e ) {
+            body = StreamUtils.copyToString( request.getInputStream(), StandardCharsets.UTF_8 );
+        } catch ( IOException e ) {
             e.printStackTrace();
         }
 
-        final String jsonStr = json.toString();
+        if ( body == null ) {
 
-        this.body = jsonStr;
+            final StringBuffer json = new StringBuffer();
 
-        if ( jsonStr.isBlank() ) {
-            return;
+
+            String         line   = null;
+            BufferedReader reader = null;
+
+            try {
+                reader = this.request.getReader();
+
+                while ( (line = reader.readLine()) != null ) {
+                    json.append( line );
+                }
+            } catch ( final IOException e ) {
+                e.printStackTrace();
+            }
+
+            final String jsonStr = json.toString();
+
+            this.body = jsonStr;
+
+            if ( jsonStr.isBlank() ) {
+                return;
+            }
         }
-
 
         final ObjectMapper objectMapper = new ObjectMapper();
 
-        final Map< String, Object > map = objectMapper.readValue( jsonStr, HashMap.class );
+        final Map< String, Object > map = objectMapper.readValue( body, HashMap.class );
 
         for ( final Map.Entry< String, Object > input : map.entrySet() ) {
 
