@@ -211,16 +211,17 @@ public class RequestImpl implements Request {
 
     private void parseJson() throws JsonProcessingException {
 
-        if ( this.request.getContentType() == null
-                || !this.request.getContentType().contains( "application/json" ) ) {
-            return;
-        }
-
         try {
             body = StreamUtils.copyToString( request.getInputStream(), StandardCharsets.UTF_8 );
         } catch ( IOException e ) {
             e.printStackTrace();
         }
+
+        if ( this.request.getContentType() == null
+                || !this.request.getContentType().contains( "application/json" ) ) {
+            return;
+        }
+
 
         if ( body == null ) {
 
