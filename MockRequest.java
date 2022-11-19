@@ -1,5 +1,8 @@
 package com.replace.replace.api.request;
 
+import com.replace.replace.exception.HttpBadRequestException;
+import com.replace.replace.exception.HttpUnprocessableEntityException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +33,96 @@ public class MockRequest implements Request {
     @Override
     public Object getParameter( final String name ) {
         return this.parameters.get( name );
+    }
+
+
+    @Override
+    public < T > T getParameter( String name, Class< T > type ) {
+        return getParameter( name, type, false );
+    }
+
+
+    @Override
+    public < T > T getParameter( String name, Class< T > type, boolean keepRawData ) {
+        if ( parameters.get( name ) == null ) {
+            return null;
+        }
+        
+        try {
+            if ( String.class == type ) {
+                T data = ( T ) parameters.get( name ).toString();
+
+                if ( !keepRawData && data == "" ) {
+                    return null;
+                }
+
+                return data;
+            }
+
+            if ( Byte.class == type ) {
+                T data = ( T ) Byte.valueOf( parameters.get( name ).toString() );
+
+                if ( !keepRawData && data == "" ) {
+                    return null;
+                }
+
+                return data;
+            }
+
+            if ( Short.class == type ) {
+                T data = ( T ) Short.valueOf( parameters.get( name ).toString() );
+
+                if ( !keepRawData && data == "" ) {
+                    return null;
+                }
+
+                return data;
+            }
+
+            if ( Integer.class == type ) {
+                T data = ( T ) Integer.valueOf( parameters.get( name ).toString() );
+
+                if ( !keepRawData && data == "" ) {
+                    return null;
+                }
+
+                return data;
+            }
+
+            if ( Long.class == type ) {
+                T data = ( T ) Long.valueOf( parameters.get( name ).toString() );
+
+                if ( !keepRawData && data == "" ) {
+                    return null;
+                }
+
+                return data;
+            }
+
+            if ( Double.class == type ) {
+                T data = ( T ) Double.valueOf( parameters.get( name ).toString() );
+
+                if ( !keepRawData && data == "" ) {
+                    return null;
+                }
+
+                return data;
+            }
+
+            if ( Boolean.class == type ) {
+                T data = ( T ) Boolean.valueOf( parameters.get( name ).toString() );
+
+                if ( !keepRawData && data == "" ) {
+                    return null;
+                }
+
+                return data;
+            }
+        } catch ( ClassCastException classCastException ) {
+            throw new HttpUnprocessableEntityException( "BAD_PARAMETER_TYPE" );
+        }
+
+        throw new HttpBadRequestException( "UNSUPPORTED_PARAMETER_TYPE" );
     }
 
 
