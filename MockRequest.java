@@ -48,85 +48,41 @@ public class MockRequest implements Request {
             return null;
         }
 
+        if ( !keepRawData && parameters.get( name ) == "" ) {
+            return null;
+        }
+
         try {
             if ( String.class == type ) {
-                T data = ( T ) parameters.get( name ).toString();
-
-                if ( !keepRawData && data == "" ) {
-                    return null;
-                }
-
-                return data;
+                return ( T ) parameters.get( name ).toString();
             }
 
             if ( Byte.class == type ) {
-                T data = ( T ) Byte.valueOf( parameters.get( name ).toString() );
-
-                if ( !keepRawData && data == "" ) {
-                    return null;
-                }
-
-                return data;
+                return ( T ) Byte.valueOf( parameters.get( name ).toString() );
             }
 
             if ( Short.class == type ) {
-                T data = ( T ) Short.valueOf( parameters.get( name ).toString() );
-
-                if ( !keepRawData && data == "" ) {
-                    return null;
-                }
-
-                return data;
+                return ( T ) Short.valueOf( parameters.get( name ).toString() );
             }
 
             if ( Integer.class == type ) {
-                T data = ( T ) Integer.valueOf( parameters.get( name ).toString() );
-
-                if ( !keepRawData && data == "" ) {
-                    return null;
-                }
-
-                return data;
+                return ( T ) Integer.valueOf( parameters.get( name ).toString() );
             }
 
             if ( Long.class == type ) {
-                T data = ( T ) Long.valueOf( parameters.get( name ).toString() );
-
-                if ( !keepRawData && data == "" ) {
-                    return null;
-                }
-
-                return data;
+                return ( T ) Long.valueOf( parameters.get( name ).toString() );
             }
 
             if ( Double.class == type ) {
-                T data = ( T ) Double.valueOf( parameters.get( name ).toString() );
-
-                if ( !keepRawData && data == "" ) {
-                    return null;
-                }
-
-                return data;
+                return ( T ) Double.valueOf( parameters.get( name ).toString() );
             }
 
             if ( Float.class == type ) {
-                T data = ( T ) Float.valueOf( parameters.get( name ).toString() );
-
-                if ( !keepRawData && data == "" ) {
-                    return null;
-                }
-
-                return data;
+                return ( T ) Float.valueOf( parameters.get( name ).toString() );
             }
 
             if ( Boolean.class == type ) {
-                T data = ( T ) Boolean.valueOf( parameters.get( name ).toString() );
-
-                if ( !keepRawData && data == "" ) {
-                    return null;
-                }
-
-                return data;
+                return ( T ) Boolean.valueOf( parameters.get( name ).toString() );
             }
         } catch ( ClassCastException classCastException ) {
             throw new HttpUnprocessableEntityException( "BAD_PARAMETER_TYPE" );
