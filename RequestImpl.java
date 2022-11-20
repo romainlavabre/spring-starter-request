@@ -121,6 +121,16 @@ public class RequestImpl implements Request {
                 return data;
             }
 
+            if ( Float.class == type ) {
+                T data = ( T ) Float.valueOf( parameters.get( name ).toString() );
+
+                if ( !keepRawData && data == "" ) {
+                    return null;
+                }
+
+                return data;
+            }
+
             if ( Boolean.class == type ) {
                 T data = ( T ) Boolean.valueOf( parameters.get( name ).toString() );
 

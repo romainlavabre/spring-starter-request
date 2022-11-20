@@ -47,7 +47,7 @@ public class MockRequest implements Request {
         if ( parameters.get( name ) == null ) {
             return null;
         }
-        
+
         try {
             if ( String.class == type ) {
                 T data = ( T ) parameters.get( name ).toString();
@@ -101,6 +101,16 @@ public class MockRequest implements Request {
 
             if ( Double.class == type ) {
                 T data = ( T ) Double.valueOf( parameters.get( name ).toString() );
+
+                if ( !keepRawData && data == "" ) {
+                    return null;
+                }
+
+                return data;
+            }
+
+            if ( Float.class == type ) {
+                T data = ( T ) Float.valueOf( parameters.get( name ).toString() );
 
                 if ( !keepRawData && data == "" ) {
                     return null;
