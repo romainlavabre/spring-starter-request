@@ -14,6 +14,10 @@ NOTHING
 
 ### Versions
 
+##### 2.0.0
+
+Migrate to spring-boot:3.0.0
+
 ##### 1.0.2
 
 ADD Root parameters
