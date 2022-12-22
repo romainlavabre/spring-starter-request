@@ -143,6 +143,12 @@ public class RequestImpl implements Request {
 
 
     @Override
+    public String getFormUrlEncodedParameter( String parameter ) {
+        return request.getParameter( parameter );
+    }
+
+
+    @Override
     public String getQueryString( final String name ) {
         if ( this.queryStrings.containsKey( name ) ) {
             return this.queryStrings.get( name );

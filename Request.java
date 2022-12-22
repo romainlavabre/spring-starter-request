@@ -64,6 +64,9 @@ public interface Request {
     Map< String, Object > getAllParameters( String prefix );
 
 
+    String getFormUrlEncodedParameter( String parameter );
+
+
     String getRawQueryString();
 
 

@@ -125,6 +125,12 @@ public class MockRequest implements Request {
 
 
     @Override
+    public String getFormUrlEncodedParameter( String parameter ) {
+        return null;
+    }
+
+
+    @Override
     public String getRawQueryString() {
         return null;
     }
