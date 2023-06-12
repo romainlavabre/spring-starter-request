@@ -178,6 +178,11 @@ public class RequestImpl implements Request {
 
     @Override
     public void setUploadedFile( final String name, final UploadedFile uploadedFile ) {
+        this.parameters.put( name, uploadedFile );
+    }
+
+    @Override
+    public void addUploadedFile( final String name, final UploadedFile uploadedFile ) {
         if ( this.parameters.get( name ) instanceof List ) {
             final List< UploadedFile > uploadedFiles = ( List< UploadedFile > ) this.parameters.get( name );
 
@@ -371,7 +376,7 @@ public class RequestImpl implements Request {
         final UploadedFile uploadedFile = new UploadedFileImpl();
         uploadedFile.setName( ( String ) map.get( "name" ) );
         uploadedFile.setContent( Base64.getDecoder().decode( ( String ) map.get( "content" ) ) );
-        uploadedFile.setContentType( ( String ) map.get( "content-type" ) );
+        uploadedFile.setContentType( map.get( "content-type" ) == null ? (String ) map.get( "content_type" ) : (String ) map.get( "content-type" ));
         uploadedFile.setSize( uploadedFile.getContent().length );
         uploadedFile.setInfos( ( Map< String, Object > ) map.get( "infos" ) );
 
